@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "StudentDetails";
+}
+
+<div class="col-lg-12 ">
+    <div class="row">
+        <h2 style="color:blue;">Student Details</h2>
+        <button class="btn btn-primary pull-right" style="margin-bottom:5px;" id="idOpenStudent">Add Student</button>
+        <table id="tblStudent" border="0" cellspacing="0" cellpadding="0" class="table table-bordered dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Age - Years</th>
+                    <th>Gender</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<div id="formStudent" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Add/Update Student</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <input type="hidden" value="" id="idStudent" />
+                    <div class="col-lg-6 col-md-6 text-left form-group">
+                        <label>Student Name:</label>
+                        <input type="text" class="form-control" id="idName" onblur="removeValidationOnChange(this)" autocomplete="off">
+                    </div>
+                    <div class="col-lg-6 col-md-6 text-left form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-control" onblur="removeValidationOnChange(this)" id="idDOB">
+                        <span id="spanAgeError" style="display:none;color:red;">Age should be greater than 8 years.</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 text-left form-group">
+                        <label>Gender</label>
+                        <select class="form-control" id="idGender" onchange="removeValidationOnChangeddl(this)">
+                            <option value="0">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 col-md-6 text-left form-group">
+                        <label>Select Courses</label><br />
+                        <select placeholder="Select Courses" id="idCourse" onchange="removeValidationOnChangeddlForMultiple(this)" multiple></select>
+                    </div>
+                </div>
+                <div class="row" style="margin-left:650px;">
+                    <button type="button" class="btn btn-primary" id="idStudentSave" onclick="fnSaveStudent()">Save Student</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link href="~/Scripts/multipleselect/multiple-select.min.css" rel="stylesheet" />
+    <link href="~/Scripts/DataTables/jquery.dataTables.css" rel="stylesheet" />
+    <style>
+        .hasError {
+            border: solid 1px #E85222 !important;
+        }
+    </style>
+
+}
+@section scripts
+    {
+    <script src="~/Scripts/multipleselect/multiple-select.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="~/Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/CustomeJs/Student.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#idCourse").multipleSelect({
+                filter: true,
+                width: 275,
+            });
+            $("#idCourse").multipleSelect("refresh");
+            $("#idCourse").multipleSelect("checkAll");
+            fnBindStudentCourse();
+            fnGetStudentList();
+        });
+    </script>
+}
